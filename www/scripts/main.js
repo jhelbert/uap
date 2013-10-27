@@ -37,7 +37,6 @@ requirejs(["src/celestrium"], function(Celestrium) {
     this.getLinkedNodes = function(nodes, callback) {
       var data = {
         nodes: JSON.stringify(nodes),
-        minStrength: this.minThreshold,
       };
       this.ajax('get_related_nodes', data, callback);
     };

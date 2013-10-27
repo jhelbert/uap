@@ -1,6 +1,6 @@
 import os, sys, cherrypy
 import simplejson as json
-from providers import ConceptProvider, AssertionProvider
+from providers import GithubProvider
 
 class Server(object):
 
@@ -10,7 +10,7 @@ class Server(object):
                 }
 
   def __init__(self):
-    self.provider = ConceptProvider(100)
+    self.provider = GithubProvider()
 
   @cherrypy.expose
   @cherrypy.tools.json_out()
@@ -24,11 +24,11 @@ class Server(object):
 
   @cherrypy.expose
   @cherrypy.tools.json_out()
-  def get_related_nodes(self, nodes, minStrength):
-    return self.provider.get_related_nodes(json.loads(nodes), float(minStrength))
+  def get_related_nodes(self, nodes):
+    return self.provider.get_related_nodes(json.loads(nodes))
 
-cherrypy.config.update({'server.socket_host': '0.0.0.0', 
-                         'server.socket_port': int(sys.argv[1]), 
-                        }) 
+cherrypy.config.update({'server.socket_host': '0.0.0.0',
+                         'server.socket_port': int(sys.argv[1]),
+                        })
 
 cherrypy.quickstart(Server())
